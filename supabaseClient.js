@@ -11,6 +11,9 @@ const STORAGE_KEY_SB_URL = 'MONITOR_SUPABASE_URL';
 const STORAGE_KEY_SB_KEY = 'MONITOR_SUPABASE_ANON_KEY';
 const STORAGE_KEY_ADMIN_AUTH = 'monitor_admin_session';
 
+const DEFAULT_SB_URL = 'https://pznqkbutzlsfoyzckpnz.supabase.co';
+const DEFAULT_SB_KEY = 'sb_publishable_P89S0xVR1O2QNXGhDW-pPw_KF4LR5KH';
+
 // Initialize LocalStorage with seed data if not present
 if (!localStorage.getItem(STORAGE_KEY_MODULES)) {
   localStorage.setItem(STORAGE_KEY_MODULES, JSON.stringify(INITIAL_MODULES));
@@ -21,11 +24,11 @@ export function getSupabaseConfig() {
   const url =
     localStorage.getItem(STORAGE_KEY_SB_URL) ||
     import.meta.env.VITE_SUPABASE_URL ||
-    '';
+    DEFAULT_SB_URL;
   const key =
     localStorage.getItem(STORAGE_KEY_SB_KEY) ||
     import.meta.env.VITE_SUPABASE_ANON_KEY ||
-    '';
+    DEFAULT_SB_KEY;
   return { url, key, isConfigured: Boolean(url && key) };
 }
 
@@ -325,3 +328,4 @@ export function performAdminLogin(username, password) {
 export function performAdminLogout() {
   localStorage.removeItem(STORAGE_KEY_ADMIN_AUTH);
 }
+
