@@ -380,3 +380,4 @@ export const INITIAL_MODULES = [
     ]
   }
 ];
+
