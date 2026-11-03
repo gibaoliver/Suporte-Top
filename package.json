@@ -21,6 +21,8 @@
     "mobilidade"
   ],
   "author": "TOP Tecnologia",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0"
+  }
 }
-
