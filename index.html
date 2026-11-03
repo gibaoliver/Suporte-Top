@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monitor Academy | Portal do Gestor — TOP Tecnologia</title>
+  <title>Monitor | TOP Tecnologia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -12,7 +12,7 @@
 <body>
 
   <!-- ========================================================================
-       TOPBAR / HEADER
+       TOPBAR / CABEÇALHO
        ======================================================================== -->
   <header class="topbar">
     <div class="topbar-left">
@@ -24,9 +24,8 @@
         </svg>
       </button>
 
-      <a href="/" class="brand-logo" onclick="if(window.loadedModules && window.loadedModules[0]) switchModule(window.loadedModules[0].id); return false;">
+      <a href="/" class="brand-logo">
         <div class="brand-icon" title="TOP Tecnologia">
-          <!-- Official TOP Interlocking Chain Icon -->
           <svg viewBox="0 0 40 40" fill="none">
             <rect x="6" y="13" width="18" height="14" rx="5" stroke="#F5BA28" stroke-width="3.5"/>
             <rect x="16" y="9" width="18" height="14" rx="5" stroke="#FFFFFF" stroke-width="3.5"/>
@@ -34,34 +33,14 @@
         </div>
         <div class="brand-text">
           <div class="brand-title">
-            MONITOR <span class="brand-badge">TOP Academy</span>
+            MONITOR <span class="brand-badge">TOP</span>
           </div>
-          <span class="brand-subtitle">Manual Interativo do Gestor de Mobilidade</span>
+          <span class="brand-subtitle">Plataforma de Mobilidade</span>
         </div>
       </a>
     </div>
 
-    <div class="topbar-center">
-      <div class="search-trigger" id="searchBarWrap">
-        <div class="search-trigger-left">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5BA28" stroke-width="2.2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="globalSearchInput" placeholder="Buscar função, menu ou configuração (ex: taxas, CNH, mapa)..." autocomplete="off" />
-        </div>
-        <span class="kbd-shortcut">Ctrl K</span>
-      </div>
-    </div>
-
     <div class="topbar-right">
-      <div class="progress-pill" title="Seu progresso de capacitação nos módulos">
-        <span id="progressText">0/6 Concluídos</span>
-        <div class="progress-bar-mini">
-          <div class="progress-bar-fill" id="progressBarFill" style="width: 15%;"></div>
-        </div>
-      </div>
-
       <a href="/admin" class="icon-btn" title="Painel Administrativo (/admin)" style="text-decoration:none;">
         ⚙️
       </a>
@@ -83,40 +62,24 @@
   </header>
 
   <!-- ========================================================================
-       APP LAYOUT: SIDEBAR + MAIN CONTENT
+       LAYOUT PRINCIPAL
        ======================================================================== -->
   <div class="app-layout">
 
-    <!-- SIDEBAR NAVIGATION -->
+    <!-- MENU PRINCIPAL NA ESQUERDA -->
     <aside class="sidebar" id="sidebar">
       <div>
-        <div class="sidebar-section-label" id="sidebarSectionLabel">Trilha do Gestor</div>
+        <div class="sidebar-section-label" id="sidebarSectionLabel">Menu Principal</div>
         <ul class="nav-list" id="moduleNavList">
-          <!-- Rendered dynamically from Supabase/LocalStorage by app.js -->
-          <li style="padding: 16px; color: var(--text-muted); font-size: 0.85rem;">Carregando trilha do gestor...</li>
+          <!-- Renderizado dinamicamente pelo app.js -->
         </ul>
-      </div>
-
-      <!-- Mascot Guide Helper Card -->
-      <div class="sidebar-mascot-card">
-        <img src="assets/tep-tablet.png" alt="Mascote Tep TOP Tecnologia" class="sidebar-mascot-img" />
-        <div class="sidebar-mascot-info">
-          <h4>Dica do Tep • Guia TOP</h4>
-          <p>Você pode criar e editar novos tópicos e subtópicos no menu <a href="/admin" style="color:var(--brand-gold); text-decoration:underline; font-weight:700;">/admin</a>!</p>
-        </div>
       </div>
     </aside>
 
-    <!-- ======================================================================
-         MAIN CONTENT AREA
-         ====================================================================== -->
+    <!-- CENTRO DO SITE EM BRANCO (CONFORME SOLICITADO) -->
     <main class="main-content">
       <div class="content-container" id="contentContainer">
-        <!-- Rendered dynamically from Supabase/LocalStorage by app.js -->
-        <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
-          <div style="font-size: 1.8rem; margin-bottom: 10px;">⚡</div>
-          <p>Carregando conteúdo do tutorial...</p>
-        </div>
+        <!-- Centro em branco mantido para desenvolvimento posterior -->
       </div>
     </main>
   </div>

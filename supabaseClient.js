@@ -102,12 +102,12 @@ export async function saveModule(modData) {
     order_index: Number(modData.order_index) || 1,
     title: modData.title,
     slug: modData.slug || modData.title.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-    badge_text: modData.badge_text || 'MÓDULO',
-    read_time: modData.read_time || '5 min',
-    target_audience: modData.target_audience || 'Gestores & Operadores',
-    icon: modData.icon || '📁',
-    mascot_image: modData.mascot_image || 'assets/tep-tablet.png',
-    description: modData.description || ''
+    badge_text: '',
+    read_time: '',
+    target_audience: '',
+    icon: '',
+    mascot_image: '',
+    description: ''
   };
 
   if (sb) {
@@ -167,15 +167,15 @@ export async function saveSubtopic(subData) {
     order_index: Number(subData.order_index) || 1,
     title: subData.title,
     slug: subData.slug || subData.title.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-    icon: subData.icon || '📌',
-    lead_text: subData.lead_text || '',
-    interactive_type: subData.interactive_type || 'none',
-    content_html: subData.content_html || '',
-    placeholder_title: subData.placeholder_title || '',
-    placeholder_desc: subData.placeholder_desc || '',
-    tip_title: subData.tip_title || '',
-    tip_content: subData.tip_content || '',
-    tip_mascot: subData.tip_mascot || 'assets/tep-rocket.png'
+    icon: '',
+    lead_text: '',
+    interactive_type: 'none',
+    content_html: '',
+    placeholder_title: '',
+    placeholder_desc: '',
+    tip_title: '',
+    tip_content: '',
+    tip_mascot: ''
   };
 
   if (sb) {
