@@ -18,28 +18,144 @@ export const INITIAL_MODULES = [
       {
         id: "sub-1-1",
         order_index: 1,
-        slug: "metricas-topo",
-        title: "1.1. Lendo as Métricas do Topo (Categorias e Status da Frota)",
-        icon: "📊",
-        lead_text: "Logo no topo do Dashboard, o Monitor agrupa seus condutores por Categoria de Serviço (Particular, Mulher, Mototaxista, Delivery, Executivo) e subdivide cada categoria em três indicadores vitais de saúde operacional: Ativos, Pendentes e Bloqueados.",
-        interactive_type: "simulator_kpi",
+        slug: "visao-geral-operacao",
+        title: "1. Visão geral da operação",
+        icon: "📌",
+        lead_text: "Esse primeiro bloco serve para mostrar, de forma rápida, como a operação está se comportando no período selecionado.",
+        interactive_type: "none",
         content_html: `
-          <p>O topo da tela é a bússola diária do gestor. Ao abrir o sistema pela manhã, verifique imediatamente a contagem de motoristas em cada status:</p>
-          <ul style="margin: 14px 0 14px 20px; line-height: 1.8; color: var(--text-secondary);">
-            <li><strong>Ativos:</strong> Motoristas aprovados, aptos a ficar online e receber chamadas agora.</li>
-            <li><strong>Pendentes:</strong> Cadastros novos aguardando aprovação de documentos. Meta da equipe: zerar essa fila diariamente!</li>
-            <li><strong>Bloqueados:</strong> Condutores suspensos por pendência financeira, CNH vencida ou queixas graves.</li>
-          </ul>
-        `,
-        placeholder_title: "Espaço para Captura de Tela #01 — Topo do Dashboard (Métricas de Motoristas)",
-        placeholder_desc: "Insira aqui o print oficial dos cards superiores do seu painel Monitor mostrando as categorias (Particular, Mulher, Mototaxista, etc.)."
+          <div class="operation-overview-content">
+            <!-- Imagem oficial do print da plataforma -->
+            <div style="margin: 16px 0 24px 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-strong); box-shadow: var(--shadow-card);">
+              <img src="assets/visao-geral-operacao.png" alt="Visão geral da operação - Painel Monitor" style="width: 100%; display: block;" />
+            </div>
+
+            <!-- Blocos de Seletor e Atualizar -->
+            <div class="grid-2" style="margin-bottom: 24px;">
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title">📅 Seletor de período</span>
+                  <span class="status-badge info">Filtro Temporal</span>
+                </div>
+                <p style="margin-bottom: 8px;">No canto superior direito aparece <strong>Hoje</strong>. Ele serve para definir qual período será analisado:</p>
+                <ul style="padding-left: 20px; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.8;">
+                  <li><strong>Hoje:</strong> Todos os indicadores abaixo devem considerar somente o dia atual.</li>
+                  <li><strong>Ontem:</strong> Análise comparativa do dia anterior completo.</li>
+                  <li><strong>Últimos 7 dias:</strong> Tendência semanal de viagens e receita.</li>
+                  <li><strong>Mês atual:</strong> Fechamento acumulado do mês.</li>
+                </ul>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title">🔄 Atualizar dados</span>
+                  <span class="status-badge active">Tempo Real</span>
+                </div>
+                <p style="margin-bottom: 8px;">O botão <strong>Atualizar dados</strong> força o painel a buscar novamente as informações mais recentes no servidor. Ele é útil principalmente quando:</p>
+                <ul style="padding-left: 20px; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.8;">
+                  <li>Um motorista acabou de finalizar uma corrida;</li>
+                  <li>Um cliente acabou de solicitar uma viagem;</li>
+                  <li>Houve um novo cadastro na plataforma;</li>
+                  <li>Uma viagem foi cancelada;</li>
+                  <li>Um pagamento acabou de ser processado.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 4 Cards de Indicadores da Operação -->
+            <div class="grid-4" style="margin-bottom: 24px;">
+              <!-- 1. Viagens de hoje -->
+              <div class="card" style="border-top: 3px solid var(--brand-gold);">
+                <div class="card-header">
+                  <span class="card-title">🚗 Viagens de hoje</span>
+                  <span class="status-badge info">Solicitações</span>
+                </div>
+                <p style="margin-bottom: 8px;">Mostra quantas <strong>solicitações de viagem</strong> foram criadas pelos clientes.</p>
+                <div style="background: rgba(245, 186, 40, 0.08); border-left: 3px solid var(--brand-gold); padding: 10px 12px; border-radius: 6px; font-size: 0.82rem; margin-bottom: 10px;">
+                  <strong>⚠️ Importante:</strong> Isso não significa necessariamente viagens finalizadas. Se 100 pessoas solicitaram uma corrida, o indicador deverá mostrar: <strong>100 viagens</strong> (mesmo que apenas 70 tenham sido atendidas).
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+                  Abaixo aparece: <em>0% vs. ontem até agora</em>. Compara o desempenho do dia atual com o mesmo horário do dia anterior (evita comparar um dia incompleto com um dia inteiro).<br />
+                  <strong>Exemplo:</strong> Hoje até 14h (120 solicitações) vs. Ontem até 14h (100 solicitações) = <strong>+20%</strong>.<br />
+                  A frase <em>Solicitadas pelos clientes</em> explica justamente o que esse indicador representa.
+                </p>
+              </div>
+
+              <!-- 2. Finalizadas de hoje -->
+              <div class="card" style="border-top: 3px solid var(--status-active);">
+                <div class="card-header">
+                  <span class="card-title">🏁 Finalizadas de hoje</span>
+                  <span class="status-badge active">Concluídas</span>
+                </div>
+                <p style="margin-bottom: 8px;">Mostra quantas viagens <strong>realmente chegaram ao final</strong>.</p>
+                <div style="background: rgba(16, 185, 129, 0.08); border-left: 3px solid var(--status-active); padding: 10px 12px; border-radius: 6px; font-size: 0.82rem; margin-bottom: 10px;">
+                  <strong>Exemplo:</strong> Se existirem 100 solicitações, 80 aceitas e 70 concluídas, esse campo mostrará: <strong>70 finalizadas</strong>.
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+                  Abaixo existe novamente uma comparação com o dia anterior e a indicação: <strong>- das solicitadas</strong>.<br />
+                  Idealmente esse campo pode mostrar algo como: <strong>70% das solicitadas</strong>. Isso significa que, de todas as solicitações realizadas naquele período, 70% terminaram efetivamente em uma viagem concluída.<br />
+                  <em>Esse é um indicador muito importante para a Return.</em>
+                </p>
+              </div>
+
+              <!-- 3. Total faturado de hoje -->
+              <div class="card" style="border-top: 3px solid #38bdf8;">
+                <div class="card-header">
+                  <span class="card-title">💵 Total faturado</span>
+                  <span class="status-badge info">Volume Bruto</span>
+                </div>
+                <p style="margin-bottom: 8px;">Esse número representa a <strong>soma do valor das corridas finalizadas</strong>.</p>
+                <div style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; padding: 10px 12px; border-radius: 6px; font-size: 0.82rem; margin-bottom: 10px;">
+                  <strong>Exemplo:</strong><br />
+                  Viagem 1: R$ 18 + Viagem 2: R$ 22 + Viagem 3: R$ 15 = <strong>Total faturado: R$ 55,00</strong>.
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+                  Abaixo aparece: <em>Soma das corridas finalizadas</em>. Isso é importante porque uma corrida solicitada ou cancelada <strong>não</strong> deveria entrar no faturamento.
+                </p>
+              </div>
+
+              <!-- 4. Ticket médio de hoje -->
+              <div class="card" style="border-top: 3px solid #a855f7;">
+                <div class="card-header">
+                  <span class="card-title">📊 Ticket médio</span>
+                  <span class="status-badge pending">Média / Viagem</span>
+                </div>
+                <p style="margin-bottom: 8px;">Esse indicador representa quanto, em média, vale cada viagem finalizada.</p>
+                <div style="background: rgba(168, 85, 247, 0.08); border-left: 3px solid #a855f7; padding: 10px 12px; border-radius: 6px; font-size: 0.82rem; margin-bottom: 10px;">
+                  <strong>Lógica:</strong> Faturamento ÷ Viagens finalizadas.<br />
+                  <strong>Exemplo:</strong> Faturamento R$ 1.000 ÷ 50 corridas = <strong>Ticket médio de R$ 20,00</strong>.
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+                  Ajuda a entender se as corridas estão ficando mais caras ou mais baratas ao longo do tempo. Se o ticket médio sobe de R$ 17 para R$ 24, pode revelar mais viagens longas, categorias premium ou corridas para aeroporto.
+                </p>
+              </div>
+            </div>
+          </div>
+        `
       },
       {
         id: "sub-1-2",
         order_index: 2,
-        slug: "secao-clientes",
-        title: "1.2. Interpretando a Seção Clientes (Passageiros)",
-        icon: "👥",
+        slug: "tipos-motorista",
+        title: "2. Tipos de motorista",
+        icon: "📌",
+        lead_text: "Logo abaixo da visão geral da operação, o Monitor agrupa seus condutores por Categoria de Serviço (Particular, Mulher, Mototaxista, Delivery) e subdivide em: Ativos, Pendentes e Bloqueados.",
+        interactive_type: "simulator_kpi",
+        content_html: `
+          <p>O acompanhamento por categoria é fundamental para garantir equilíbrio entre oferta e demanda em cada nicho de transporte:</p>
+          <ul style="margin: 14px 0 14px 20px; line-height: 1.8; color: var(--text-secondary);">
+            <li><strong>Ativos:</strong> Motoristas com cadastro aprovado e aptos a aceitar corridas imediatamente.</li>
+            <li><strong>Pendentes:</strong> Novos condutores que enviaram CNH e documentos e aguardam validação na fila de homologação.</li>
+            <li><strong>Bloqueados:</strong> Condutores suspensos por pendência financeira de comissão, documentação expirada ou advertência disciplinar.</li>
+          </ul>
+        `
+      },
+      {
+        id: "sub-1-3",
+        order_index: 3,
+        slug: "clientes",
+        title: "3. Clientes",
+        icon: "📌",
         lead_text: "Abaixo dos indicadores de motoristas, o painel apresenta o termômetro da demanda: a base de Clientes (Passageiros PF e Empresas PJ).",
         interactive_type: "none",
         content_html: `
@@ -64,22 +180,43 @@ export const INITIAL_MODULES = [
         `
       },
       {
-        id: "sub-1-3",
-        order_index: 3,
-        slug: "movimentacao-rankings",
-        title: "1.3. Movimentação de Viagens e Rankings (Top Motoristas e Clientes)",
-        icon: "🏆",
-        lead_text: "Na metade inferior do Dashboard, o gestor analisa a conversão real de corridas e identifica quem são os maiores geradores de receita da plataforma.",
+        id: "sub-1-4",
+        order_index: 4,
+        slug: "movimentacao-viagens",
+        title: "4. Movimentação de viagens",
+        icon: "📌",
+        lead_text: "Na metade inferior do Dashboard, o gestor analisa o fluxo de corridas por forma de pagamento e taxa de conversão.",
         interactive_type: "none",
         content_html: `
           <div class="grid-2">
             <div class="card">
-              <div class="card-header"><span class="card-title">📈 Movimentação de Viagens</span><span class="status-badge active">Tempo Real</span></div>
-              <p>Divide o volume de corridas por Meio de Pagamento (PIX, Cartão no App, Dinheiro, Voucher PJ) e por Status Final (Concluídas, Em Andamento e Canceladas).</p>
+              <div class="card-header"><span class="card-title">📈 Corridas por Forma de Pagamento</span><span class="status-badge active">Tempo Real</span></div>
+              <p>Permite visualizar quanto volume está sendo transacionado via PIX, Cartão no App, Dinheiro físico e Vouchers Corporativos PJ.</p>
             </div>
             <div class="card">
-              <div class="card-header"><span class="card-title">🥇 Rankings (Top Motoristas & Clientes)</span><span class="status-badge pending">Fidelização</span></div>
-              <p>Lista automaticamente os condutores com maior número de viagens concluídas e os passageiros mais frequentes para campanhas de bonificação.</p>
+              <div class="card-header"><span class="card-title">⚠️ Corridas Canceladas</span><span class="status-badge blocked">Atenção Operacional</span></div>
+              <p>Monitore o percentual de cancelamentos (Passageiro vs. Motorista). Se a taxa passar de 12%, indica tempo de espera excessivo ou escassez de veículos próximos.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: "sub-1-5",
+        order_index: 5,
+        slug: "rankings",
+        title: "5. Rankings",
+        icon: "📌",
+        lead_text: "Identifique quem são os principais geradores de receita e fidelização da sua plataforma.",
+        interactive_type: "none",
+        content_html: `
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header"><span class="card-title">🥇 Top Motoristas</span><span class="status-badge pending">Engajamento</span></div>
+              <p>Lista automaticamente os condutores com maior número de viagens concluídas e maior avaliação média. Ideal para criação de campanhas de bonificação e metas semanais.</p>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">🏆 Top Clientes</span><span class="status-badge info">Fidelidade</span></div>
+              <p>Passageiros mais frequentes no aplicativo, permitindo conceder cupons VIP de retenção e monitorar contas corporativas de alto consumo.</p>
             </div>
           </div>
         `,
@@ -380,4 +517,3 @@ export const INITIAL_MODULES = [
     ]
   }
 ];
-
