@@ -1,6 +1,7 @@
 /* ==========================================================================
-   MONITOR ACADEMY — ADMIN JAVASCRIPT LOGIC
-   Gestão Simplificada: Somente Nome da Categoria e Subcategoria
+   MONITOR ADMIN — TOP TECNOLOGIA
+   Gestão Completa de Categorias de Tutoriais e Subtópicos
+   Design System: Intercom Style / Help Center Admin
    ========================================================================== */
 
 import {
@@ -18,6 +19,19 @@ import {
 } from './supabaseClient.js';
 
 let currentModulesData = [];
+let activeSearchQuery = '';
+
+// Default icon mapper
+function getDefaultIcon(title) {
+  const t = (title || '').toLowerCase();
+  if (t.includes('dashboard') || t.includes('visão') || t.includes('visao')) return '📊';
+  if (t.includes('usuário') || t.includes('usuario') || t.includes('cliente') || t.includes('motorista')) return '👥';
+  if (t.includes('viagen') || t.includes('viagem') || t.includes('opera') || t.includes('mapa') || t.includes('frota')) return '🛵';
+  if (t.includes('taxa') || t.includes('financeiro') || t.includes('tarifa') || t.includes('repasse')) return '💰';
+  if (t.includes('comunica') || t.includes('relatório') || t.includes('relatorio') || t.includes('mensagem')) return '💬';
+  if (t.includes('avançada') || t.includes('avancada') || t.includes('sistema') || t.includes('config')) return '⚙️';
+  return '📁';
+}
 
 // ============================================================================
 // INITIALIZATION & AUTH CHECKS
@@ -72,45 +86,64 @@ window.handleLogout = function () {
 };
 
 // ============================================================================
-// LOAD AND RENDER CATEGORIAS & SUBCATEGORIAS
+// LOAD AND RENDER CATEGORIES & TUTORIALS
 // ============================================================================
 
-async function loadAndRenderModules() {
+async function loadAndRenderModules(filterText = '') {
   const listEl = document.getElementById('modulesAdminList');
   if (!listEl) return;
 
-  listEl.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:30px;">Carregando categorias...</div>';
+  if (!filterText) {
+    listEl.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:30px;">Carregando categorias de tutoriais...</div>';
+    const { data, source } = await fetchModulesWithSubtopics();
+    currentModulesData = data || [];
+    updateDbStatusBadge(source);
+  }
 
-  const { data, source } = await fetchModulesWithSubtopics();
-  currentModulesData = data || [];
-  updateDbStatusBadge(source);
+  // Update Stats Counters
+  updateAdminStats(currentModulesData);
 
-  if (!data || data.length === 0) {
+  // Filter if search query exists
+  const query = filterText.toLowerCase().trim();
+  const filtered = query
+    ? currentModulesData.filter((mod) => {
+        const modMatch = (mod.title || '').toLowerCase().includes(query);
+        const subMatch = (mod.subtopics || []).some((sub) =>
+          (sub.title || '').toLowerCase().includes(query)
+        );
+        return modMatch || subMatch;
+      })
+    : currentModulesData;
+
+  if (!filtered || filtered.length === 0) {
     listEl.innerHTML = `
-      <div style="text-align:center; padding:40px; background:var(--bg-card); border-radius:12px; border:1px dashed var(--border-subtle);">
-        <p style="color:var(--text-secondary); margin-bottom:14px;">Nenhuma categoria cadastrada ainda.</p>
+      <div style="text-align:center; padding:48px; background:var(--bg-card); border-radius:14px; border:1px dashed var(--border-medium);">
+        <p style="color:var(--text-secondary); margin-bottom:16px; font-size:1.05rem;">
+          ${query ? 'Nenhuma categoria ou tutorial encontrado com esse termo.' : 'Nenhuma categoria cadastrada ainda.'}
+        </p>
         <button class="btn-primary" onclick="openModuleModal()">+ Criar Primeira Categoria</button>
       </div>
     `;
     return;
   }
 
-  listEl.innerHTML = data
+  listEl.innerHTML = filtered
     .map((mod, idx) => {
       const subCount = (mod.subtopics || []).length;
       const padNum = String(mod.order_index || idx + 1).padStart(2, '0');
+      const icon = mod.icon || getDefaultIcon(mod.title);
 
       const subtopicsRows = (mod.subtopics || [])
         .map(
           (sub, sIdx) => `
             <tr>
-              <td style="width:50px; font-weight:700; color:var(--brand-gold);">${sIdx + 1}</td>
+              <td style="width:50px; font-weight:700; color:var(--brand-gold);">#${sub.order_index || sIdx + 1}</td>
               <td style="font-weight:600; color:var(--text-primary);">
                 ${escapeHtml(sub.title)}
               </td>
-              <td style="text-align:right;">
-                <button class="btn-secondary" style="padding:5px 12px; font-size:0.8rem;" onclick="openSubtopicModal('${mod.id}', '${sub.id}')">Editar</button>
-                <button class="btn-danger" style="padding:5px 12px; font-size:0.8rem; margin-left:6px;" onclick="handleDeleteSubtopic('${mod.id}', '${sub.id}')">Excluir</button>
+              <td style="text-align:right; white-space:nowrap;">
+                <button class="btn-secondary" style="padding:5px 12px; font-size:0.78rem;" onclick="openSubtopicModal('${mod.id}', '${sub.id}')">Editar</button>
+                <button class="btn-danger" style="padding:5px 12px; font-size:0.78rem; margin-left:6px;" onclick="handleDeleteSubtopic('${mod.id}', '${sub.id}')">Excluir</button>
               </td>
             </tr>
           `
@@ -118,23 +151,24 @@ async function loadAndRenderModules() {
         .join('');
 
       return `
-        <div class="module-admin-card" id="card-${mod.id}">
-          <div class="module-card-header">
-            <div class="module-card-left" onclick="toggleSubtopicsDrawer('${mod.id}')">
-              <div class="module-order-badge">${padNum}</div>
-              <div class="module-card-title-group">
+        <div class="category-admin-card" id="card-${mod.id}">
+          <div class="category-card-header">
+            <div class="category-card-left" onclick="toggleSubtopicsDrawer('${mod.id}')">
+              <div class="category-icon-admin">${icon}</div>
+              <div class="category-card-title-group">
                 <h3>
                   <span>${escapeHtml(mod.title)}</span>
-                  <span style="font-size:0.75rem; background:rgba(255,255,255,0.06); padding:2px 10px; border-radius:99px; color:var(--brand-gold); font-weight:600;">
-                    ${subCount} subcategoria(s)
-                  </span>
+                  <span class="category-order-tag">#${padNum}</span>
                 </h3>
+                <p>
+                  ${subCount} ${subCount === 1 ? 'tutorial cadastrado' : 'tutoriais cadastrados'} • Clique para ${subCount > 0 ? 'expandir' : 'adicionar'}
+                </p>
               </div>
             </div>
 
-            <div class="module-card-actions">
+            <div class="category-card-actions">
               <button class="btn-secondary" style="font-size:0.82rem; padding:8px 14px;" onclick="openSubtopicModal('${mod.id}')">
-                + Nova Subcategoria
+                + Tutorial
               </button>
               <button class="btn-secondary" style="font-size:0.82rem; padding:8px 14px;" onclick="openModuleModal('${mod.id}')">
                 Editar
@@ -145,29 +179,36 @@ async function loadAndRenderModules() {
             </div>
           </div>
 
-          <div class="subtopics-drawer" id="drawer-${mod.id}">
-            <div class="subtopics-header">
-              <h4>Subcategorias de ${escapeHtml(mod.title)}</h4>
-              <button class="btn-secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="openSubtopicModal('${mod.id}')">
-                + Adicionar Subcategoria
+          <div class="tutorials-drawer" id="drawer-${mod.id}">
+            <div class="tutorials-drawer-header">
+              <h4>Tutoriais de ${escapeHtml(mod.title)}</h4>
+              <button class="btn-secondary" style="font-size:0.75rem; padding:5px 12px;" onclick="openSubtopicModal('${mod.id}')">
+                + Adicionar Tutorial
               </button>
             </div>
 
             ${
               subCount > 0
                 ? `
-                <table class="subtopics-table">
+                <table class="tutorials-table">
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>Nome da Subcategoria</th>
+                      <th style="width:60px;">Ordem</th>
+                      <th>Título do Tutorial</th>
                       <th style="text-align:right;">Ações</th>
                     </tr>
                   </thead>
                   <tbody>${subtopicsRows}</tbody>
                 </table>
               `
-                : `<div style="font-size:0.85rem; color:var(--text-muted); padding:10px 0;">Nenhuma subcategoria cadastrada nesta categoria.</div>`
+                : `
+                <div style="font-size:0.88rem; color:var(--text-muted); padding:16px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px dashed var(--border-subtle); text-align:center;">
+                  Nenhum tutorial/subtópico cadastrado nesta categoria.<br/>
+                  <button class="btn-secondary" style="margin-top:10px; font-size:0.78rem;" onclick="openSubtopicModal('${mod.id}')">
+                    + Cadastrar Primeiro Tutorial
+                  </button>
+                </div>
+              `
             }
           </div>
         </div>
@@ -176,6 +217,25 @@ async function loadAndRenderModules() {
     .join('');
 }
 
+function updateAdminStats(modules) {
+  const catCountEl = document.getElementById('statCategoriesCount');
+  const tutCountEl = document.getElementById('statTutorialsCount');
+
+  if (catCountEl) {
+    catCountEl.textContent = modules.length;
+  }
+
+  if (tutCountEl) {
+    const totalTuts = modules.reduce((sum, mod) => sum + (mod.subtopics || []).length, 0);
+    tutCountEl.textContent = totalTuts;
+  }
+}
+
+window.handleAdminSearch = function (query) {
+  activeSearchQuery = query;
+  loadAndRenderModules(query);
+};
+
 window.toggleSubtopicsDrawer = function (modId) {
   const drawer = document.getElementById(`drawer-${modId}`);
   if (!drawer) return;
@@ -183,8 +243,15 @@ window.toggleSubtopicsDrawer = function (modId) {
 };
 
 // ============================================================================
-// CATEGORY (MODULE) CRUD — APENAS NOME
+// CATEGORY CRUD (MODAL & ACTIONS)
 // ============================================================================
+
+window.selectEmoji = function (emoji) {
+  const input = document.getElementById('modIcon');
+  if (input) {
+    input.value = emoji;
+  }
+};
 
 window.openModuleModal = function (modId = null) {
   const modal = document.getElementById('moduleModal');
@@ -198,15 +265,19 @@ window.openModuleModal = function (modId = null) {
       titleEl.textContent = 'Editar Categoria';
       document.getElementById('modId').value = mod.id;
       document.getElementById('modTitle').value = mod.title || '';
+      document.getElementById('modIcon').value = mod.icon || getDefaultIcon(mod.title);
+      document.getElementById('modOrder').value = mod.order_index || 1;
     }
   } else {
-    titleEl.textContent = 'Nova Categoria';
+    titleEl.textContent = 'Nova Categoria de Tutoriais';
     document.getElementById('modId').value = '';
     document.getElementById('modTitle').value = '';
+    document.getElementById('modIcon').value = '📁';
+    document.getElementById('modOrder').value = currentModulesData.length + 1;
   }
 
   modal.classList.add('open');
-  setTimeout(() => document.getElementById('modTitle').focus(), 50);
+  setTimeout(() => document.getElementById('modTitle').focus(), 60);
 };
 
 window.closeModuleModal = function () {
@@ -214,15 +285,15 @@ window.closeModuleModal = function () {
 };
 
 window.handleDeleteModule = async function (modId, title) {
-  if (confirm(`Tem certeza que deseja excluir a categoria "${title}" e todas as suas subcategorias?`)) {
+  if (confirm(`Tem certeza que deseja excluir a categoria "${title}" e todos os seus tutoriais?`)) {
     await deleteModule(modId);
-    showToast('Categoria excluída.');
-    await loadAndRenderModules();
+    showToast('Categoria de tutorial excluída.');
+    await loadAndRenderModules(activeSearchQuery);
   }
 };
 
 // ============================================================================
-// SUBCATEGORY (SUBTOPIC) CRUD — APENAS NOME
+// TUTORIAL (SUBTOPIC) CRUD
 // ============================================================================
 
 window.openSubtopicModal = function (moduleId, subId = null) {
@@ -232,24 +303,25 @@ window.openSubtopicModal = function (moduleId, subId = null) {
   form.reset();
 
   document.getElementById('subModuleId').value = moduleId;
-
   const mod = currentModulesData.find((m) => m.id === moduleId);
 
   if (subId && mod) {
     const sub = (mod.subtopics || []).find((s) => s.id === subId);
     if (sub) {
-      titleEl.textContent = 'Editar Subcategoria';
+      titleEl.textContent = 'Editar Tutorial';
       document.getElementById('subId').value = sub.id;
       document.getElementById('subTitle').value = sub.title || '';
+      document.getElementById('subOrder').value = sub.order_index || 1;
     }
   } else {
-    titleEl.textContent = 'Nova Subcategoria';
+    titleEl.textContent = `Novo Tutorial em "${mod ? mod.title : 'Categoria'}"`;
     document.getElementById('subId').value = '';
     document.getElementById('subTitle').value = '';
+    document.getElementById('subOrder').value = mod && mod.subtopics ? mod.subtopics.length + 1 : 1;
   }
 
   modal.classList.add('open');
-  setTimeout(() => document.getElementById('subTitle').focus(), 50);
+  setTimeout(() => document.getElementById('subTitle').focus(), 60);
 };
 
 window.closeSubtopicModal = function () {
@@ -257,10 +329,10 @@ window.closeSubtopicModal = function () {
 };
 
 window.handleDeleteSubtopic = async function (moduleId, subId) {
-  if (confirm('Deseja realmente excluir esta subcategoria?')) {
+  if (confirm('Deseja realmente excluir este tutorial?')) {
     await deleteSubtopic(moduleId, subId);
-    showToast('Subcategoria excluída.');
-    await loadAndRenderModules();
+    showToast('Tutorial excluído.');
+    await loadAndRenderModules(activeSearchQuery);
   }
 };
 
@@ -276,14 +348,15 @@ function setupForms() {
       e.preventDefault();
       const modId = document.getElementById('modId').value;
       const title = document.getElementById('modTitle').value.trim();
-      if (!title) return;
+      const icon = document.getElementById('modIcon').value.trim() || getDefaultIcon(title);
+      const order = Number(document.getElementById('modOrder').value) || 1;
 
-      const existingMod = currentModulesData.find((m) => m.id === modId);
-      const order = existingMod ? existingMod.order_index : currentModulesData.length + 1;
+      if (!title) return;
 
       const payload = {
         id: modId || undefined,
         title: title,
+        icon: icon,
         order_index: order,
         slug: title.toLowerCase().replace(/[^a-z0-9]/g, '-'),
         description: ''
@@ -292,11 +365,11 @@ function setupForms() {
       await saveModule(payload);
       closeModuleModal();
       showToast('Categoria salva com sucesso!');
-      await loadAndRenderModules();
+      await loadAndRenderModules(activeSearchQuery);
     });
   }
 
-  // Subcategory Form
+  // Tutorial / Subtopic Form
   const subtopicForm = document.getElementById('subtopicForm');
   if (subtopicForm) {
     subtopicForm.addEventListener('submit', async (e) => {
@@ -304,11 +377,9 @@ function setupForms() {
       const subId = document.getElementById('subId').value;
       const moduleId = document.getElementById('subModuleId').value;
       const title = document.getElementById('subTitle').value.trim();
-      if (!title) return;
+      const order = Number(document.getElementById('subOrder').value) || 1;
 
-      const mod = currentModulesData.find((m) => m.id === moduleId);
-      const existingSub = mod && mod.subtopics ? mod.subtopics.find((s) => s.id === subId) : null;
-      const order = existingSub ? existingSub.order_index : (mod && mod.subtopics ? mod.subtopics.length + 1 : 1);
+      if (!title) return;
 
       const payload = {
         id: subId || undefined,
@@ -323,8 +394,8 @@ function setupForms() {
 
       await saveSubtopic(payload);
       closeSubtopicModal();
-      showToast('Subcategoria salva com sucesso!');
-      await loadAndRenderModules();
+      showToast('Tutorial salvo com sucesso!');
+      await loadAndRenderModules(activeSearchQuery);
     });
   }
 
@@ -364,7 +435,7 @@ window.handleSyncAllToSupabase = async function () {
     btn.disabled = true;
     btn.textContent = 'Enviando ao Supabase...';
     const res = await syncLocalDataToSupabase();
-    showToast(`🎉 Sincronizado: ${res.modulesCount} categorias salvas no Supabase!`);
+    showToast(`🎉 Sincronizado: ${res.modulesCount} categorias e ${res.subtopicsCount} tutoriais salvos no Supabase!`);
     await loadAndRenderModules();
   } catch (err) {
     alert(`Erro ao sincronizar com Supabase: ${err.message}`);
@@ -377,16 +448,24 @@ window.handleSyncAllToSupabase = async function () {
 function updateDbStatusBadge(source = null) {
   const badge = document.getElementById('dbStatusBadge');
   const text = document.getElementById('dbStatusText');
+  const statStatus = document.getElementById('statCloudStatus');
   const { isConfigured } = getSupabaseConfig();
 
+  const isConnected = isConfigured || source === 'supabase';
+
   if (badge && text) {
-    if (isConfigured || source === 'supabase') {
+    if (isConnected) {
       badge.className = 'status-badge-live';
       text.textContent = 'Conectado: Supabase Cloud';
     } else {
       badge.className = 'status-badge-live local';
       text.textContent = 'Modo Local (LocalStorage Ativo)';
     }
+  }
+
+  if (statStatus) {
+    statStatus.textContent = isConnected ? 'Supabase Nuvem' : 'Local (Offline)';
+    statStatus.style.color = isConnected ? 'var(--status-active)' : 'var(--brand-gold)';
   }
 }
 

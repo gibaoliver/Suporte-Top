@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Painel Admin | Categorias e Subcategorias — Monitor TOP</title>
+  <title>Painel Admin | Categorias de Tutoriais — Monitor TOP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -22,8 +22,8 @@
           <rect x="16" y="9" width="18" height="14" rx="5" stroke="#FFFFFF" stroke-width="3.5"/>
         </svg>
       </div>
-      <h2>Painel de Gestão</h2>
-      <p>Gerenciamento de Categorias e Subcategorias do Menu</p>
+      <h2>Painel Administrativo</h2>
+      <p>Gestão de Categorias e Tutoriais do Monitor TOP</p>
 
       <form class="login-form" id="loginForm">
         <div class="form-group">
@@ -56,15 +56,15 @@
     <header class="admin-header">
       <div class="admin-header-left">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div style="width:36px; height:36px; background:#000; border:1.5px solid var(--brand-gold); border-radius:8px; display:flex; align-items:center; justify-content:center;">
-            <svg width="20" height="20" viewBox="0 0 40 40" fill="none">
+          <div style="width:38px; height:38px; background:#000; border:1.5px solid var(--brand-gold); border-radius:10px; display:flex; align-items:center; justify-content:center;">
+            <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
               <rect x="6" y="13" width="18" height="14" rx="5" stroke="#F5BA28" stroke-width="3.5"/>
               <rect x="16" y="9" width="18" height="14" rx="5" stroke="#FFFFFF" stroke-width="3.5"/>
             </svg>
           </div>
           <div>
-            <strong style="display:block; font-size:1.05rem;">MONITOR <span style="color:var(--brand-gold);">ADMIN</span></strong>
-            <span style="font-size:0.74rem; color:var(--text-muted);">TOP Tecnologia • Categorias do Menu</span>
+            <strong style="display:block; font-size:1.05rem; letter-spacing:-0.01em;">MONITOR <span style="color:var(--brand-gold);">ADMIN</span></strong>
+            <span style="font-size:0.75rem; color:var(--text-muted);">TOP Tecnologia • Categorias de Tutoriais</span>
           </div>
         </div>
 
@@ -78,22 +78,24 @@
         <button class="btn-secondary" onclick="openSupabaseModal()">
           ⚡ Conexão Supabase
         </button>
-        <a href="/" target="_blank" class="btn-secondary" title="Ver site público">
-          👁️ Ver Site
+        <a href="/" target="_blank" class="btn-secondary" title="Abrir página inicial em nova aba">
+          👁️ Ver Site Público
         </a>
-        <button class="btn-secondary" onclick="handleLogout()" style="color:#ef4444;">
+        <button class="btn-secondary" onclick="handleLogout()" style="color:#ef4444; border-color:rgba(239,68,68,0.3);">
           Sair
         </button>
       </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Container -->
     <main class="admin-container">
+      
+      <!-- Banner Superior -->
       <div class="admin-hero-banner">
         <div>
-          <h1>Categorias e Subcategorias</h1>
+          <h1>Categorias de Tutoriais</h1>
           <p>
-            Crie, renomeie e organize as categorias do menu principal e suas subcategorias.
+            Crie, edite e ordene as caixas de categorias da página inicial e adicione tutoriais/subtópicos a cada uma.
           </p>
         </div>
         <button class="btn-primary" onclick="openModuleModal()">
@@ -101,7 +103,46 @@
         </button>
       </div>
 
-      <!-- Modules List -->
+      <!-- Métricas / Contadores Rápidos -->
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📁</div>
+          <div>
+            <div class="stat-value" id="statCategoriesCount">0</div>
+            <div class="stat-label">Categorias Ativas</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div>
+            <div class="stat-value" id="statTutorialsCount">0</div>
+            <div class="stat-label">Tutoriais / Subtópicos</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚡</div>
+          <div>
+            <div class="stat-value" id="statCloudStatus" style="font-size:1.15rem; color:var(--brand-gold);">Supabase</div>
+            <div class="stat-label">Armazenamento Ativo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Filtro / Busca -->
+      <div class="admin-filter-bar">
+        <input 
+          type="text" 
+          id="adminSearchInput" 
+          class="admin-search-input" 
+          placeholder="🔍 Filtrar categorias ou tutoriais..." 
+          oninput="handleAdminSearch(this.value)"
+        />
+        <button class="btn-secondary" onclick="openModuleModal()">
+          + Adicionar Categoria
+        </button>
+      </div>
+
+      <!-- Lista de Categorias e Tutoriais -->
       <div class="modules-list" id="modulesAdminList">
         <!-- Renderizado dinamicamente pelo admin.js -->
       </div>
@@ -109,12 +150,12 @@
   </div>
 
   <!-- ========================================================================
-       MODAL: CRIAR / EDITAR CATEGORIA (APENAS NOME)
+       MODAL: CRIAR / EDITAR CATEGORIA (COM NOME, ÍCONE E ORDEM)
        ======================================================================== -->
   <div class="modal-overlay" id="moduleModal">
-    <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-box">
       <div class="modal-header">
-        <h3 id="moduleModalTitle">Categoria</h3>
+        <h3 id="moduleModalTitle">Categoria de Tutoriais</h3>
         <button class="modal-close-btn" onclick="closeModuleModal()">&times;</button>
       </div>
 
@@ -123,7 +164,51 @@
         
         <div class="form-group">
           <label for="modTitle">Nome da Categoria</label>
-          <input type="text" id="modTitle" class="form-input" placeholder="Ex: Dashboard, Gestão de Usuários..." required autofocus />
+          <input 
+            type="text" 
+            id="modTitle" 
+            class="form-input" 
+            placeholder="Ex: Gestão de Usuários, Operação e Viagens..." 
+            required 
+            autofocus 
+          />
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label for="modIcon">Ícone / Emoji</label>
+          <input 
+            type="text" 
+            id="modIcon" 
+            class="form-input" 
+            placeholder="Ex: 📊, 👥, 🛵, 💰, 💬, ⚙️..." 
+            maxlength="8" 
+          />
+          <div class="emoji-selector-pills">
+            <button type="button" class="emoji-pill" onclick="selectEmoji('📊')">📊 Gráficos</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('👥')">👥 Usuários</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('🛵')">🛵 Viagens</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('🗺️')">🗺️ Mapas</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('💰')">💰 Financeiro</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('💬')">💬 Chat</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('⚙️')">⚙️ Sistema</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('🛠️')">🛠️ Configs</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('🛡️')">🛡️ Segurança</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('📦')">📦 Cargas</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('📱')">📱 App</button>
+            <button type="button" class="emoji-pill" onclick="selectEmoji('🚀')">🚀 Rápido</button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label for="modOrder">Ordem de Exibição (Número)</label>
+          <input 
+            type="number" 
+            id="modOrder" 
+            class="form-input" 
+            min="1" 
+            placeholder="1, 2, 3..." 
+            required 
+          />
         </div>
 
         <div class="modal-footer">
@@ -135,27 +220,46 @@
   </div>
 
   <!-- ========================================================================
-       MODAL: CRIAR / EDITAR SUBCATEGORIA (APENAS NOME)
+       MODAL: CRIAR / EDITAR TUTORIAL (SUBTÓPICO)
        ======================================================================== -->
   <div class="modal-overlay" id="subtopicModal">
-    <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-box">
       <div class="modal-header">
-        <h3 id="subtopicModalTitle">Subcategoria</h3>
+        <h3 id="subtopicModalTitle">Tutorial / Subtópico</h3>
         <button class="modal-close-btn" onclick="closeSubtopicModal()">&times;</button>
       </div>
 
       <form id="subtopicForm">
         <input type="hidden" id="subId" />
         <input type="hidden" id="subModuleId" />
-
+        
         <div class="form-group">
-          <label for="subTitle">Nome da Subcategoria</label>
-          <input type="text" id="subTitle" class="form-input" placeholder="Ex: Visão geral da operação, Clientes..." required autofocus />
+          <label for="subTitle">Título do Tutorial</label>
+          <input 
+            type="text" 
+            id="subTitle" 
+            class="form-input" 
+            placeholder="Ex: Visão geral da operação, Como cadastrar motorista..." 
+            required 
+            autofocus 
+          />
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label for="subOrder">Ordem de Exibição (Número)</label>
+          <input 
+            type="number" 
+            id="subOrder" 
+            class="form-input" 
+            min="1" 
+            placeholder="1, 2, 3..." 
+            required 
+          />
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn-secondary" onclick="closeSubtopicModal()">Cancelar</button>
-          <button type="submit" class="btn-primary">Salvar Subcategoria</button>
+          <button type="submit" class="btn-primary">Salvar Tutorial</button>
         </div>
       </form>
     </div>
@@ -172,7 +276,7 @@
       </div>
 
       <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:18px;">
-        Conecte seu projeto Supabase para que todas as categorias e subcategorias fiquem salvas na nuvem.
+        Conecte seu projeto Supabase para que todas as categorias e tutoriais fiquem sincronizados na nuvem em tempo real.
       </p>
 
       <form id="supabaseConfigForm">
@@ -188,7 +292,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn-secondary" onclick="closeSupabaseModal()">Fechar</button>
-          <button type="button" class="btn-secondary" id="btnSyncAll" onclick="handleSyncAllToSupabase()" style="color:var(--brand-gold);">
+          <button type="button" class="btn-secondary" id="btnSyncAll" onclick="handleSyncAllToSupabase()" style="color:var(--brand-gold); border-color:var(--border-gold);">
             📤 Sincronizar Tudo com o Supabase
           </button>
           <button type="submit" class="btn-primary">Salvar Credenciais</button>

@@ -105,7 +105,7 @@ export async function saveModule(modData) {
     badge_text: '',
     read_time: '',
     target_audience: '',
-    icon: '',
+    icon: modData.icon || '📁',
     mascot_image: '',
     description: ''
   };

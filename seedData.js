@@ -7,7 +7,8 @@ export const INITIAL_MODULES = [
     id: "mod-1",
     order_index: 1,
     slug: "dashboard",
-    title: "Dashboard",
+    title: "(Dashboard)",
+    icon: "📊",
     description: "",
     subtopics: [
       { id: "sub-1-1", order_index: 1, slug: "visao-geral-operacao", title: "Visão geral da operação", content_html: "", lead_text: "" },
@@ -22,6 +23,7 @@ export const INITIAL_MODULES = [
     order_index: 2,
     slug: "gestao-usuarios",
     title: "Gestão de Usuários",
+    icon: "👥",
     description: "",
     subtopics: [
       { id: "sub-2-1", order_index: 1, slug: "clientes", title: "Clientes", content_html: "", lead_text: "" },
@@ -33,9 +35,10 @@ export const INITIAL_MODULES = [
     order_index: 3,
     slug: "operacao-viagens",
     title: "Operação e Viagens",
+    icon: "🛵",
     description: "",
     subtopics: [
-      { id: "sub-3-1", order_index: 1, slug: "monitoramento", title: "Monitoramento", content_html: "", lead_text: "" },
+      { id: "sub-3-1", order_index: 1, slug: "monitoramento", title: "Monitoramento ao Vivo", content_html: "", lead_text: "" },
       { id: "sub-3-2", order_index: 2, slug: "viagens-delivery", title: "Viagens e Delivery", content_html: "", lead_text: "" },
       { id: "sub-3-3", order_index: 3, slug: "grupos-chamados", title: "Grupos de Chamados", content_html: "", lead_text: "" }
     ]
@@ -45,9 +48,10 @@ export const INITIAL_MODULES = [
     order_index: 4,
     slug: "taxas-financeiro",
     title: "Taxas e Financeiro",
+    icon: "💰",
     description: "",
     subtopics: [
-      { id: "sub-4-1", order_index: 1, slug: "financeiro", title: "Financeiro", content_html: "", lead_text: "" },
+      { id: "sub-4-1", order_index: 1, slug: "financeiro", title: "Financeiro e Repasses", content_html: "", lead_text: "" },
       { id: "sub-4-2", order_index: 2, slug: "configuracao-taxas", title: "Configuração de Taxas", content_html: "", lead_text: "" }
     ]
   },
@@ -55,11 +59,12 @@ export const INITIAL_MODULES = [
     id: "mod-5",
     order_index: 5,
     slug: "comunicacao-relatorios",
-    title: "Comunicação e Relatórios",
+    title: "Comunicação & Relatórios",
+    icon: "💬",
     description: "",
     subtopics: [
       { id: "sub-5-1", order_index: 1, slug: "mensagens-fale-conosco", title: "Mensagens e Fale Conosco", content_html: "", lead_text: "" },
-      { id: "sub-5-2", order_index: 2, slug: "relatorios", title: "Relatórios", content_html: "", lead_text: "" }
+      { id: "sub-5-2", order_index: 2, slug: "relatorios", title: "Relatórios Gerenciais", content_html: "", lead_text: "" }
     ]
   },
   {
@@ -67,10 +72,20 @@ export const INITIAL_MODULES = [
     order_index: 6,
     slug: "avancadas-sistema",
     title: "Avançadas e Sistema",
+    icon: "⚙️",
     description: "",
     subtopics: [
       { id: "sub-6-1", order_index: 1, slug: "mapas-zonas-risco", title: "Mapas e Zonas de Risco", content_html: "", lead_text: "" },
       { id: "sub-6-2", order_index: 2, slug: "perfil-administrador", title: "Perfil de Administrador", content_html: "", lead_text: "" }
     ]
+  },
+  {
+    id: "mod-7",
+    order_index: 7,
+    slug: "configuracoes-avancadas",
+    title: "Configurações avançadas",
+    icon: "🛠️",
+    description: "",
+    subtopics: []
   }
 ];
