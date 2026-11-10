@@ -3,161 +3,440 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Central de Ajuda & Tutoriais | Monitor — TOP Tecnologia</title>
+  <title>TOP Mobilidade — Facilitando o Seu Caminho, Cashback em Todas as Corridas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
 
   <!-- ========================================================================
-       TOPBAR NAVIGATION
+       STICKY HEADER & NAVIGATION (ESTILO MOBYAPP COM PALETA TOP)
        ======================================================================== -->
-  <header class="topbar">
+  <header class="topbar" id="mainHeader">
     <a href="/" class="brand-logo" title="TOP Tecnologia">
       <div class="brand-icon">
-        <!-- TOP Interlocking Chain Mark -->
         <svg viewBox="0 0 40 40" width="22" height="22" fill="none">
           <rect x="6" y="13" width="18" height="14" rx="5" stroke="#F5BA28" stroke-width="3.5"/>
           <rect x="16" y="9" width="18" height="14" rx="5" stroke="#FFFFFF" stroke-width="3.5"/>
         </svg>
       </div>
       <div class="brand-title">
-        MONITOR <span class="brand-badge">Academy</span>
+        TOP <span class="brand-badge">App</span>
       </div>
     </a>
 
+    <!-- Desktop Navigation Menu -->
     <nav class="topbar-nav">
-      <a href="#destaques" class="nav-link">Primeiros Passos</a>
-      <a href="#categorias" class="nav-link">Categorias</a>
-      <a href="https://suportetop.vercel.app/" target="_blank" class="nav-link">Central do Gestor</a>
-      
-      <a href="/admin" class="nav-btn-admin" title="Gerenciar Categorias e Subcategorias">
-        <span>⚙️ Painel Admin</span>
-      </a>
+      <a href="#inicio" class="nav-link active">Início</a>
+      <a href="#passageiro" class="nav-link">Passageiro</a>
+      <a href="#motorista" class="nav-link">Motorista</a>
+      <a href="#metricas" class="nav-link">Vantagens</a>
+      <a href="#tutoriais" class="nav-link">Tutoriais & Categorias</a>
+      <a href="#contato" class="nav-link">Contato</a>
 
-      <button class="icon-btn" id="themeToggleBtn" title="Alternar Tema Escuro / Claro">
-        <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
-
-      <span class="nav-link" style="opacity: 0.8; font-size: 0.82rem; cursor: default;">
-        🌐 Português (BR)
-      </span>
+      <div class="nav-actions">
+        <a href="/admin" class="nav-btn-admin" title="Gerenciar Categorias de Tutoriais">
+          <span>⚙️ Painel Admin</span>
+        </a>
+        <a href="https://wa.me/5511999723574" target="_blank" rel="noopener noreferrer" class="nav-btn-cta">
+          <span>💬 Fale Conosco</span>
+        </a>
+      </div>
     </nav>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
   </header>
 
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-drawer" id="mobileDrawer">
+    <a href="#inicio" class="nav-link" onclick="closeMobileDrawer()">Início</a>
+    <a href="#passageiro" class="nav-link" onclick="closeMobileDrawer()">Passageiro</a>
+    <a href="#motorista" class="nav-link" onclick="closeMobileDrawer()">Motorista</a>
+    <a href="#metricas" class="nav-link" onclick="closeMobileDrawer()">Vantagens & Métricas</a>
+    <a href="#tutoriais" class="nav-link" onclick="closeMobileDrawer()">Tutoriais & Categorias</a>
+    <a href="#contato" class="nav-link" onclick="closeMobileDrawer()">Contato</a>
+    <a href="/admin" class="nav-btn-admin" style="justify-content: center; width: 100%;">
+      ⚙️ Painel Admin
+    </a>
+    <a href="https://wa.me/5511999723574" target="_blank" rel="noopener noreferrer" class="nav-btn-cta" style="justify-content: center; width: 100%;">
+      💬 Fale no WhatsApp
+    </a>
+  </div>
+
   <!-- ========================================================================
-       SCENIC PANORAMA HERO SECTION (INTERCOM HELP CENTER STYLE)
+       HERO SECTION (ESTILO MOBYAPP COM O CARRO FLUTUANTE ANIMADO E FOTO)
        ======================================================================== -->
-  <section class="hero-scenic">
-    <div class="hero-scenic-bg"></div>
-    <div class="hero-scenic-silhouette"></div>
+  <section class="hero-moby" id="inicio">
+    <div class="hero-moby-bg"></div>
+    <div class="hero-moby-overlay"></div>
 
-    <div class="hero-content">
-      <h1 class="hero-headline">
-        A tecnologia que move sua <span>operação de mobilidade</span>.
-      </h1>
-      <p class="hero-subtitle">
-        Central oficial de tutoriais, regras de negócio e guias práticos do sistema Monitor.
-      </p>
+    <div class="hero-container">
+      
+      <!-- Coluna Esquerda: Textos, Chamadas e Botões -->
+      <div class="hero-content">
+        <div class="hero-pill-badge">
+          <span class="pulse-dot"></span>
+          <span>MOBILIDADE LOCAL & CASHBACK</span>
+        </div>
 
-      <!-- Prominent Search Bar with Instant Results -->
-      <div class="hero-search-wrap">
-        <div class="hero-search-box">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input
-            type="text"
-            id="heroSearchInput"
-            class="hero-search-input"
-            placeholder="Buscar por artigos, taxas, motoristas, mapas ou relatórios..."
-            autocomplete="off"
+        <h1 class="hero-headline">
+          Facilitando o <br />
+          <span class="highlight">Seu Caminho</span>
+        </h1>
+
+        <div class="hero-subheadline">
+          <span>Cashback em</span>
+          <span class="hero-cashback-badge">Todas as Corridas</span>
+        </div>
+
+        <p class="hero-desc">
+          Um aplicativo de transporte criado para conectar pessoas com mais proximidade, segurança e respeito. 
+          Tarifas transparentes, atendimento humanizado e até 99% de repasse para quem dirige.
+        </p>
+
+        <!-- Botões de Download das Lojas -->
+        <div class="hero-actions-row">
+          <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer" class="app-store-btn">
+            <svg viewBox="0 0 24 24">
+              <path d="M3.609 1.814L13.792 12 3.61 22.186a1.996 1.996 0 0 1-.61-.955V2.769c0-.363.22-.705.609-.955zM15.207 13.414l2.586 2.586-11.517 6.649 8.931-9.235zm0-2.828L6.276 1.351l11.517 6.649-2.586 2.586zm1.414 1.414l3.19-1.842a1.65 1.65 0 0 1 0 2.856l-3.19-1.842a.5.5 0 0 1 0-.014v1.028z"/>
+            </svg>
+            <div class="app-btn-text">
+              <span class="app-btn-label">Disponível no</span>
+              <span class="app-btn-title">Google Play</span>
+            </div>
+          </a>
+
+          <a href="https://www.apple.com/br/app-store/" target="_blank" rel="noopener noreferrer" class="app-store-btn">
+            <svg viewBox="0 0 24 24">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.93-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76.99.08 2.04-.51 2.67-1.26z"/>
+            </svg>
+            <div class="app-btn-text">
+              <span class="app-btn-label">Baixe na</span>
+              <span class="app-btn-title">App Store</span>
+            </div>
+          </a>
+
+          <a href="https://wa.me/5511999723574" target="_blank" rel="noopener noreferrer" class="hero-btn-more">
+            <span style="color: var(--brand-gold); font-size: 1.1rem;">✔</span>
+            <span>Conheça Mais</span>
+          </a>
+        </div>
+
+        <!-- Barra de Confiança e Prova Social -->
+        <div class="hero-trust-bar">
+          <div class="trust-rating">
+            <span>⭐⭐⭐⭐⭐</span>
+            <span>4.9 / 5.0</span>
+          </div>
+          <span style="color: var(--border-medium);">|</span>
+          <div class="trust-badge-text">
+            +10.000 Corridas Realizadas com Segurança
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna Direita: O CARRO FLUTUANTE COM ANIMAÇÃO E CARDS GLASS -->
+      <div class="hero-visual-col">
+        <div class="hero-car-wrapper">
+          
+          <!-- Anel e Luz Ambiente Dourada -->
+          <div class="hero-ambient-glow"></div>
+          <div class="hero-ambient-ring"></div>
+
+          <!-- Card Flutuante 1 (Topo Direita) -->
+          <div class="floating-stat-card card-top-right">
+            <div class="stat-card-icon">💰</div>
+            <div class="stat-card-info">
+              <strong>Cashback Imediato</strong>
+              <span>Parte do valor volta pra você</span>
+            </div>
+          </div>
+
+          <!-- A FOTO DO CARRO COM ANIMAÇÃO DE LEVITAÇÃO -->
+          <img 
+            src="/assets/moby/moby-carro.png" 
+            alt="Carro TOP Mobilidade com animação flutuante" 
+            class="hero-car-img" 
           />
-          <span class="hero-search-kbd">Ctrl K</span>
-        </div>
 
-        <!-- Live Search Dropdown -->
-        <div class="search-results-dropdown" id="searchResultsDropdown">
-          <!-- Renderizado dinamicamente via JavaScript -->
+          <!-- Sombra Dinâmica no Asfalto -->
+          <div class="hero-car-shadow"></div>
+
+          <!-- Card Flutuante 2 (Base Esquerda) -->
+          <div class="floating-stat-card card-bottom-left">
+            <div class="stat-card-icon">🛡️</div>
+            <div class="stat-card-info">
+              <strong>100% Seguro</strong>
+              <span>Monitoramento de rotas ao vivo</span>
+            </div>
+          </div>
+
         </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       BARRA DE DOWNLOAD RÁPIDO ("Baixe agora mesmo")
+       ======================================================================== -->
+  <section class="download-ribbon">
+    <div class="download-ribbon-content">
+      <div class="ribbon-text">
+        <h3>Baixe agora mesmo o aplicativo</h3>
+        <p>Disponível para passageiros e motoristas parceiros em sua cidade</p>
+      </div>
+
+      <div class="ribbon-actions">
+        <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer" class="app-store-btn">
+          <svg viewBox="0 0 24 24">
+            <path d="M3.609 1.814L13.792 12 3.61 22.186a1.996 1.996 0 0 1-.61-.955V2.769c0-.363.22-.705.609-.955zM15.207 13.414l2.586 2.586-11.517 6.649 8.931-9.235zm0-2.828L6.276 1.351l11.517 6.649-2.586 2.586zm1.414 1.414l3.19-1.842a1.65 1.65 0 0 1 0 2.856l-3.19-1.842a.5.5 0 0 1 0-.014v1.028z"/>
+          </svg>
+          <div class="app-btn-text">
+            <span class="app-btn-label">Disponível no</span>
+            <span class="app-btn-title">Google Play</span>
+          </div>
+        </a>
+
+        <a href="https://www.apple.com/br/app-store/" target="_blank" rel="noopener noreferrer" class="app-store-btn">
+          <svg viewBox="0 0 24 24">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.93-2.85-.9.04-2 .6-2.65 1.35-.58.66-1.09 1.73-.95 2.76.99.08 2.04-.51 2.67-1.26z"/>
+          </svg>
+          <div class="app-btn-text">
+            <span class="app-btn-label">Baixe na</span>
+            <span class="app-btn-title">App Store</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
   <!-- ========================================================================
-       MAIN BODY WRAPPER
+       SEÇÃO PASSAGEIRO ("Vai sair? Chama na TOP") — COM FOTO MOBY
        ======================================================================== -->
-  <main class="main-wrapper">
-
-    <!-- 1. FEATURED CARD ("Get the most out of Intercom" style) -->
-    <section class="featured-card" id="destaques">
-      <div class="featured-title">
-        <span>Aproveite ao máximo a plataforma Monitor</span>
-        <span class="featured-title-badge">Destaques</span>
-      </div>
-
-      <div class="featured-grid" id="featuredGrid">
-        <a href="#categorias" class="featured-link-item" onclick="openCategoryByTitle('Dashboard'); return false;">
-          <span>Visão geral da operação</span>
-          <span class="featured-arrow">›</span>
-        </a>
-        <a href="#categorias" class="featured-link-item" onclick="openCategoryByTitle('Gestão de Usuários'); return false;">
-          <span>Gestão de motoristas e CNH</span>
-          <span class="featured-arrow">›</span>
-        </a>
-        <a href="#categorias" class="featured-link-item" onclick="openCategoryByTitle('Taxas e Financeiro'); return false;">
-          <span>Configuração de tarifas e comissão</span>
-          <span class="featured-arrow">›</span>
-        </a>
-        <a href="#categorias" class="featured-link-item" onclick="openCategoryByTitle('Operação e Viagens'); return false;">
-          <span>Monitoramento ao vivo no mapa</span>
-          <span class="featured-arrow">›</span>
-        </a>
-        <a href="#categorias" class="featured-link-item" onclick="openCategoryByTitle('Operação e Viagens'); return false;">
-          <span>Grupos de chamados e distribuição</span>
-          <span class="featured-arrow">›</span>
-        </a>
-        <a href="#categorias" class="featured-link-item" onclick="openCategoryByTitle('Comunicação e Relatórios'); return false;">
-          <span>Relatórios gerenciais e repasses</span>
-          <span class="featured-arrow">›</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- 2. CATEGORIES BOXES GRID ("Caixas que serão categorias de tutorials") -->
-    <section id="categorias">
-      <div class="categories-section-header">
-        <div>
-          <h2 class="section-title">Categorias de Tutoriais</h2>
-          <p class="section-desc">Selecione uma categoria para visualizar todos os tópicos e guias da plataforma.</p>
+  <section class="showcase-section" id="passageiro">
+    <div class="showcase-container">
+      
+      <!-- Foto do Passageiro com Moldura Moderna -->
+      <div class="showcase-photo-frame">
+        <div class="photo-glow-backdrop"></div>
+        <img 
+          src="/assets/moby/passageiro.jpg" 
+          alt="Passageiro usando o aplicativo TOP" 
+          class="showcase-img"
+        />
+        <div class="photo-floating-pill">
+          <span>✨</span>
+          <span>Mais Conforto e Cashback</span>
         </div>
       </div>
 
-      <div class="categories-grid" id="categoriesGrid">
-        <!-- Renderizado dinamicamente pelo app.js a partir do Supabase/LocalStorage -->
-        <div style="grid-column: 1/-1; padding: 40px; text-align: center; color: var(--text-muted);">
-          Carregando categorias de tutoriais...
-        </div>
-      </div>
-    </section>
+      <!-- Conteúdo Descritivo Passageiro -->
+      <div class="showcase-content">
+        <span class="showcase-badge-pill">Passageiro</span>
+        <h2 class="showcase-title">Vai sair? Chama na TOP</h2>
+        
+        <p class="showcase-lead">
+          A TOP é um aplicativo de transporte criado para conectar pessoas com mais proximidade, segurança e respeito. 
+          Unimos tecnologia, atendimento humanizado e foco local para entregar uma experiência justa, acessível e eficiente.
+        </p>
 
-  </main>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon-box">📍</div>
+            <div class="feature-text">
+              <h4>Mobilidade Local e Humanizada</h4>
+              <p>Motoristas da sua própria cidade, relacionamento próximo e cuidado com você em cada corrida.</p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">💰</div>
+            <div class="feature-text">
+              <h4>Mais Cashback para o Passageiro</h4>
+              <p>Acumule créditos em sua carteira digital a cada corrida finalizada e use como desconto nas próximas.</p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">⚡</div>
+            <div class="feature-text">
+              <h4>Tecnologia com Propósito</h4>
+              <p>Preço estimado antes de confirmar, mapa ao vivo, pagamento por Pix, Cartão ou Dinheiro.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/5511999723574" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-cta">
+          <span>💬 Fale Conosco no WhatsApp</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
 
   <!-- ========================================================================
-       CATEGORY DETAIL MODAL (Exibe os subtópicos da categoria clicada)
+       SEÇÃO MOTORISTA ("Dirija com liberdade e Ganhe mais") — COM FOTO MOBY
+       ======================================================================== -->
+  <section class="showcase-section alt-bg" id="motorista">
+    <div class="showcase-container reverse">
+      
+      <!-- Conteúdo Descritivo Motorista -->
+      <div class="showcase-content">
+        <span class="showcase-badge-pill">Motorista Parceiro</span>
+        <h2 class="showcase-title">Dirija com liberdade e Ganhe mais</h2>
+        
+        <p class="showcase-lead">
+          A TOP foi criada para valorizar quem realmente faz a mobilidade acontecer: você motorista.
+          Aqui você trabalha com mais autonomia, taxas justas e suporte próximo, sem burocracia e sem surpresas.
+        </p>
+
+        <!-- Destaque: Até 99% do valor da corrida -->
+        <div class="showcase-highlight-box">
+          <strong>🏆 Até 99% do valor da corrida para você!</strong>
+          <p>Mais respeito, mais transparência e mais resultado financeiro de verdade no final de cada mês.</p>
+        </div>
+
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon-box">💵</div>
+            <div class="feature-text">
+              <h4>Até 99% do Valor da Corrida é seu</h4>
+              <p>A taxa mais justa do mercado para que você fique com o fruto real do seu trabalho diário.</p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">🤝</div>
+            <div class="feature-text">
+              <h4>Suporte Humano e Local</h4>
+              <p>Nada de robôs que não resolvem. Conte com atendimento humanizado direto da nossa equipe.</p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">⏰</div>
+            <div class="feature-text">
+              <h4>Trabalhe no seu Ritmo</h4>
+              <p>Total flexibilidade de horários, liberdade geográfica e repasses rápidos via Pix.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="https://wa.me/5511999723574" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-cta">
+            <span>💬 Cadastre-se pelo WhatsApp</span>
+          </a>
+          <a href="/admin" class="nav-btn-admin" style="padding: 14px 24px; font-size: 0.94rem;">
+            <span>⚙️ Painel de Gestão</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Foto do Motorista com Moldura Moderna -->
+      <div class="showcase-photo-frame">
+        <div class="photo-glow-backdrop"></div>
+        <img 
+          src="/assets/moby/motorista.jpg" 
+          alt="Motorista parceiro TOP satisfeito" 
+          class="showcase-img"
+        />
+        <div class="photo-floating-pill">
+          <span>🚗</span>
+          <span>Mais Lucro e Respeito</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO MÉTRICAS & EXPERIÊNCIA (OUR MISSION / EXPERIENCE)
+       ======================================================================== -->
+  <section class="stats-banner-section" id="metricas">
+    <div class="stats-grid-container">
+      
+      <div class="stat-metric-card">
+        <div class="stat-metric-number">99%</div>
+        <div class="stat-metric-label">Repasse ao Motorista</div>
+        <div class="stat-metric-desc">A maior valorização do parceiro</div>
+      </div>
+
+      <div class="stat-metric-card">
+        <div class="stat-metric-number">+50k</div>
+        <div class="stat-metric-label">Corridas Realizadas</div>
+        <div class="stat-metric-desc">Milhares de trajetos com segurança</div>
+      </div>
+
+      <div class="stat-metric-card">
+        <div class="stat-metric-number">4.9 ★</div>
+        <div class="stat-metric-label">Avaliação Média</div>
+        <div class="stat-metric-desc">Satisfação de passageiros e motoristas</div>
+      </div>
+
+      <div class="stat-metric-card">
+        <div class="stat-metric-number">100%</div>
+        <div class="stat-metric-label">Suporte Humanizado</div>
+        <div class="stat-metric-desc">Atendimento local ágil via WhatsApp</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO CENTRAL DE TUTORIAIS & CATEGORIAS (CONECTADA AO SUPABASE)
+       ======================================================================== -->
+  <section class="tutorials-hub-section" id="tutoriais">
+    <div class="tutorials-section-header">
+      <span class="showcase-badge-pill">Central de Conhecimento</span>
+      <h2>Categorias de Tutoriais da Plataforma</h2>
+      <p>
+        Guias passo a passo e tutoriais completos para gestores, motoristas e operadores do sistema Monitor.
+      </p>
+    </div>
+
+    <!-- Barra de Busca Instantânea de Artigos e Tutoriais -->
+    <div class="hero-search-wrap">
+      <div class="hero-search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="text"
+          id="heroSearchInput"
+          class="hero-search-input"
+          placeholder="Buscar por artigos, taxas, motoristas, mapas ou relatórios..."
+          autocomplete="off"
+        />
+        <span class="hero-search-kbd">Ctrl K</span>
+      </div>
+
+      <!-- Dropdown de Busca em Tempo Real -->
+      <div class="search-results-dropdown" id="searchResultsDropdown">
+        <!-- Renderizado dinamicamente via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Grid de Caixas de Categorias Carregadas Dinamicamente pelo Supabase -->
+    <div class="categories-grid" id="categoriesGrid">
+      <div style="grid-column: 1/-1; padding: 40px; text-align: center; color: var(--text-muted);">
+        Carregando categorias de tutoriais...
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       MODAL DE DETALHES DA CATEGORIA (EXIBE OS SUBTÓPICOS CLICADOS)
        ======================================================================== -->
   <div class="category-modal-overlay" id="categoryModal">
     <div class="category-modal-box">
@@ -177,70 +456,119 @@
       </ul>
 
       <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.8rem; color: var(--text-muted);">TOP Tecnologia • Manual do Gestor</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">TOP Mobilidade • Manual Interativo</span>
         <a href="/admin" class="nav-btn-admin" style="font-size: 0.78rem; padding: 6px 14px;">
-          ✏️ Editar no Admin
+          ✏️ Gerenciar no Admin
         </a>
       </div>
     </div>
   </div>
 
   <!-- ========================================================================
-       FLOATING ASSISTANT WIDGET (INTERCOM BEACON STYLE)
+       SEÇÃO FALE CONOSCO AGORA MESMO (ESTILO MOBY COM WHATSAPP)
        ======================================================================== -->
-  <div class="floating-beacon" id="floatingBeacon" title="Ajuda & Suporte TOP" onclick="toggleBeaconBubble()">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-    </svg>
-  </div>
-
-  <div class="beacon-bubble" id="beaconBubble">
-    <div class="beacon-bubble-header">
-      <div style="width: 28px; height: 28px; border-radius: 8px; background: #000; border: 1.5px solid var(--brand-gold); display: flex; align-items: center; justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 40 40" fill="none">
-          <rect x="6" y="13" width="18" height="14" rx="5" stroke="#F5BA28" stroke-width="4"/>
-          <rect x="16" y="9" width="18" height="14" rx="5" stroke="#FFFFFF" stroke-width="4"/>
-        </svg>
+  <section class="contact-cta-section" id="contato">
+    <div class="contact-cta-card">
+      <div class="contact-cta-text">
+        <h3>Fale Conosco Agora Mesmo</h3>
+        <p>
+          Ficou com alguma dúvida, precisa de suporte ou quer levar a TOP Mobilidade para a sua cidade? 
+          Nossa equipe responde em poucos minutos no WhatsApp.
+        </p>
       </div>
-      <h4>Suporte Monitor TOP</h4>
-    </div>
-    <p>
-      Precisa de ajuda para configurar sua frota, calibrar tarifas ou tirar dúvidas da plataforma?
-    </p>
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-      <a href="/admin" class="nav-btn-admin" style="justify-content: center; width: 100%;">
-        ⚙️ Ir para Painel Admin
-      </a>
-      <a href="mailto:suporte@toptecnologia.com" class="nav-link" style="justify-content: center; font-size: 0.8rem; color: var(--text-muted);">
-        ✉️ Contatar Suporte por E-mail
+
+      <a href="https://wa.me/5511999723574" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-cta">
+        <span>💬 Fale Conosco no WhatsApp</span>
       </a>
     </div>
-  </div>
+  </section>
 
   <!-- ========================================================================
-       FOOTER
+       FOOTER PREMIUM (ESTILO MOBYAPP COM PALETA TOP)
        ======================================================================== -->
   <footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-left">
-        <div style="width: 28px; height: 28px; border-radius: 6px; background: #000; border: 1px solid var(--brand-gold); display: flex; align-items: center; justify-content: center;">
-          <svg width="16" height="16" viewBox="0 0 40 40" fill="none">
-            <rect x="6" y="13" width="18" height="14" rx="5" stroke="#F5BA28" stroke-width="4"/>
-            <rect x="16" y="9" width="18" height="14" rx="5" stroke="#FFFFFF" stroke-width="4"/>
-          </svg>
+    <div class="footer-top-grid">
+      
+      <!-- Coluna 1: Sobre -->
+      <div class="footer-col footer-about">
+        <div class="brand-logo">
+          <div class="brand-icon">
+            <svg viewBox="0 0 40 40" width="22" height="22" fill="none">
+              <rect x="6" y="13" width="18" height="14" rx="5" stroke="#F5BA28" stroke-width="3.5"/>
+              <rect x="16" y="9" width="18" height="14" rx="5" stroke="#FFFFFF" stroke-width="3.5"/>
+            </svg>
+          </div>
+          <div class="brand-title">
+            TOP <span class="brand-badge">App</span>
+          </div>
         </div>
-        <span>© 2026 TOP Tecnologia • Monitor Help Center & Academy. Todos os direitos reservados.</span>
+        <p>
+          Na TOP, acreditamos que mobilidade deve ser simples, justa e próxima das pessoas. 
+          Tecnologia a serviço de quem roda e de quem viaja.
+        </p>
       </div>
 
-      <div class="footer-links">
-        <a href="#categorias" class="footer-link">Categorias</a>
-        <a href="#destaques" class="footer-link">Primeiros Passos</a>
-        <a href="/admin" class="footer-link">Painel Admin</a>
-        <a href="https://suportetop.vercel.app/" target="_blank" class="footer-link">Portal do Gestor</a>
+      <!-- Coluna 2: Acesso Rápido -->
+      <div class="footer-col">
+        <h4>Acesso Rápido</h4>
+        <ul class="footer-links-list">
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#passageiro">Passageiro</a></li>
+          <li><a href="#motorista">Motorista</a></li>
+          <li><a href="#metricas">Vantagens & Métricas</a></li>
+          <li><a href="#tutoriais">Categorias de Tutoriais</a></li>
+          <li><a href="/admin">Painel de Gestão Admin</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 3: Baixe o Aplicativo -->
+      <div class="footer-col">
+        <h4>Baixe o Aplicativo</h4>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+          <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer" class="app-store-btn" style="padding: 7px 14px;">
+            <div class="app-btn-text">
+              <span class="app-btn-label">Disponível no</span>
+              <span class="app-btn-title" style="font-size: 0.85rem;">Google Play</span>
+            </div>
+          </a>
+          <a href="https://www.apple.com/br/app-store/" target="_blank" rel="noopener noreferrer" class="app-store-btn" style="padding: 7px 14px;">
+            <div class="app-btn-text">
+              <span class="app-btn-label">Baixe na</span>
+              <span class="app-btn-title" style="font-size: 0.85rem;">App Store</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Coluna 4: Atendimento -->
+      <div class="footer-col">
+        <h4>Horário de Atendimento</h4>
+        <div class="footer-hours-box">
+          <strong>Segunda a Sexta-feira:</strong>
+          <span>08h às 18h</span>
+          <div style="margin-top: 8px;">
+            <strong>WhatsApp de Atendimento:</strong>
+            <a href="https://wa.me/5511999723574" style="color: var(--brand-gold); text-decoration: none; font-weight: 700;">
+              (11) 99972-3574
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Barra Inferior de Direitos Reservados -->
+    <div class="footer-bottom-bar">
+      <div>
+        © 2026 TOP Tecnologia • Todos os direitos reservados.
+      </div>
+      <div>
+        <a href="/admin" style="color: var(--text-muted); text-decoration: none; margin-right: 14px;">Área Administrativa</a>
+        <a href="#inicio" style="color: var(--brand-gold); text-decoration: none; font-weight: 700;">Voltar ao Topo ↑</a>
       </div>
     </div>
   </footer>
 
-  <script type="module" src="app.js"></script>
+  <script type="module" src="/app.js"></script>
 </body>
 </html>

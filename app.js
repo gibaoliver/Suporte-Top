@@ -1,18 +1,18 @@
 /* ==========================================================================
-   MONITOR HELP CENTER & ACADEMY — INTERCOM STYLE LOGIC
-   Dynamic Category Boxes & Live Search Powered by Supabase
+   TOP MOBILIDADE — CLIENT LOGIC (ESTILO MOBYAPP COM PALETA TOP)
+   Header interativo, animações de scroll e categorias dinâmicas do Supabase
    ========================================================================== */
 
 import { fetchModulesWithSubtopics } from './supabaseClient.js';
 
 let loadedModules = [];
 
-// Category icon mapper based on keyword matching
+// Category icon mapper
 function getCategoryIcon(title) {
   const t = (title || '').toLowerCase();
   if (t.includes('dashboard') || t.includes('visão') || t.includes('visao')) return '📊';
   if (t.includes('usuário') || t.includes('usuario') || t.includes('cliente') || t.includes('motorista')) return '👥';
-  if (t.includes('viagen') || t.includes('viagem') || t.includes('opera') || t.includes('mapa') || t.includes('frota')) return '🗺️';
+  if (t.includes('viagen') || t.includes('viagem') || t.includes('opera') || t.includes('mapa') || t.includes('frota')) return '🛵';
   if (t.includes('taxa') || t.includes('financeiro') || t.includes('tarifa') || t.includes('repasse')) return '💰';
   if (t.includes('comunica') || t.includes('relatório') || t.includes('relatorio') || t.includes('mensagem')) return '💬';
   if (t.includes('avançada') || t.includes('avancada') || t.includes('sistema') || t.includes('config')) return '⚙️';
@@ -23,17 +23,82 @@ function getCategoryIcon(title) {
 // INITIALIZATION
 // ============================================================================
 
-async function initHelpCenter() {
+async function initPage() {
+  setupHeaderScroll();
+  setupMobileMenu();
+  setupActiveNavScroll();
+  setupHeroSearch();
+
+  // Load Categories & Tutorials from Supabase / LocalStorage
   const { data } = await fetchModulesWithSubtopics();
   loadedModules = data || [];
-
   renderCategoryCards(loadedModules);
-  setupHeroSearch();
-  setupThemeToggle();
 }
 
 // ============================================================================
-// RENDER CATEGORY BOXES ("Caixas que serão categorias de tutorials")
+// HEADER STICKY & SCROLL EFFECTS
+// ============================================================================
+
+function setupHeaderScroll() {
+  const header = document.getElementById('mainHeader');
+  if (!header) return;
+
+  const onScroll = () => {
+    if (window.scrollY > 40) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+function setupMobileMenu() {
+  const btn = document.getElementById('mobileMenuBtn');
+  const drawer = document.getElementById('mobileDrawer');
+  if (!btn || !drawer) return;
+
+  btn.addEventListener('click', () => {
+    drawer.classList.toggle('open');
+  });
+}
+
+export function closeMobileDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  if (drawer) drawer.classList.remove('open');
+}
+
+function setupActiveNavScroll() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.topbar-nav .nav-link');
+
+  if (sections.length === 0 || navLinks.length === 0) return;
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    const scrollY = window.pageYOffset;
+
+    sections.forEach((section) => {
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop - 120;
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  }, { passive: true });
+}
+
+// ============================================================================
+// RENDER CATEGORY BOXES ("Caixas de Tutoriais")
 // ============================================================================
 
 function renderCategoryCards(modules) {
@@ -128,17 +193,6 @@ export function closeCategoryModal() {
   if (modal) modal.classList.remove('open');
 }
 
-// Open category by matching title fragment (used in the Featured Quick Links)
-export function openCategoryByTitle(titleFragment) {
-  const cleanFrag = titleFragment.toLowerCase();
-  const found = loadedModules.find((m) => m.title.toLowerCase().includes(cleanFrag));
-  if (found) {
-    openCategoryModal(found.id);
-  } else if (loadedModules.length > 0) {
-    openCategoryModal(loadedModules[0].id);
-  }
-}
-
 // ============================================================================
 // INSTANT LIVE SEARCH
 // ============================================================================
@@ -158,9 +212,8 @@ function setupHeroSearch() {
 
     const matches = [];
 
-    // Search across categories and subtopics
     loadedModules.forEach((mod) => {
-      if (mod.title.toLowerCase().includes(query)) {
+      if ((mod.title || '').toLowerCase().includes(query)) {
         matches.push({
           type: 'category',
           modId: mod.id,
@@ -170,7 +223,7 @@ function setupHeroSearch() {
       }
 
       (mod.subtopics || []).forEach((sub) => {
-        if (sub.title.toLowerCase().includes(query)) {
+        if ((sub.title || '').toLowerCase().includes(query)) {
           matches.push({
             type: 'subtopic',
             modId: mod.id,
@@ -194,10 +247,10 @@ function setupHeroSearch() {
           (m) => `
             <div class="search-result-item" onclick="handleSearchResultClick('${m.modId}')">
               <div>
-                <strong style="display: block; font-size: 0.94rem;">${escapeHtml(m.title)}</strong>
-                <span class="search-result-category">${escapeHtml(m.categoryName)}</span>
+                <strong class="search-result-title">${escapeHtml(m.title)}</strong>
+                <span class="search-result-cat">${escapeHtml(m.categoryName)}</span>
               </div>
-              <span style="color: var(--brand-gold);">›</span>
+              <span style="color: var(--brand-gold); font-size: 1.2rem;">›</span>
             </div>
           `
         )
@@ -207,14 +260,12 @@ function setupHeroSearch() {
     dropdown.classList.add('open');
   });
 
-  // Close dropdown on click outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.hero-search-wrap')) {
       dropdown.classList.remove('open');
     }
   });
 
-  // Keyboard shortcut Ctrl+K
   window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();
@@ -229,27 +280,6 @@ window.handleSearchResultClick = function (modId) {
   openCategoryModal(modId);
 };
 
-// ============================================================================
-// THEME & WIDGET TOGGLES
-// ============================================================================
-
-function setupThemeToggle() {
-  const btn = document.getElementById('themeToggleBtn');
-  if (!btn) return;
-
-  btn.addEventListener('click', () => {
-    const html = document.documentElement;
-    const current = html.getAttribute('data-theme') || 'dark';
-    const next = current === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-  });
-}
-
-export function toggleBeaconBubble() {
-  const bubble = document.getElementById('beaconBubble');
-  if (bubble) bubble.classList.toggle('open');
-}
-
 // Utilities
 function escapeHtml(str) {
   if (!str) return '';
@@ -260,13 +290,12 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-// Expose to window for inline onclick handlers
+// Expose globals for HTML inline events
 window.openCategoryModal = openCategoryModal;
 window.closeCategoryModal = closeCategoryModal;
-window.openCategoryByTitle = openCategoryByTitle;
-window.toggleBeaconBubble = toggleBeaconBubble;
+window.closeMobileDrawer = closeMobileDrawer;
 
 // Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-  initHelpCenter();
+  initPage();
 });
