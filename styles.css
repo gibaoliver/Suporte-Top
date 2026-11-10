@@ -101,30 +101,36 @@ body {
 }
 
 /* ==========================================================================
-   STICKY HEADER & NAVIGATION (ESTILO MOBYAPP COM PALETA TOP)
+   STICKY HEADER & NAVIGATION (ESPELHADO MOBYAPP COM CÁPSULA BRANCA)
    ========================================================================== */
 .topbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 80px;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 54px;
+  padding: 22px 48px;
   background: transparent;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .topbar.scrolled {
-  background: rgba(8, 8, 12, 0.92);
+  padding: 12px 48px;
+  background: rgba(8, 8, 12, 0.94);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border-gold);
-  height: 72px;
+  border-bottom: 1px solid rgba(245, 186, 40, 0.22);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.topbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .brand-logo {
@@ -133,6 +139,7 @@ body {
   gap: 12px;
   text-decoration: none;
   color: var(--text-primary);
+  flex-shrink: 0;
 }
 
 .brand-icon {
@@ -174,71 +181,128 @@ body {
   letter-spacing: 0.05em;
 }
 
-/* Nav Links */
-.topbar-nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-.nav-link {
-  color: #FFFFFF;
-  text-decoration: none;
-  font-size: 0.92rem;
-  font-weight: 600;
-  opacity: 0.88;
-  transition: var(--transition);
-  position: relative;
-  padding: 6px 0;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  opacity: 1;
-  color: var(--brand-gold);
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--brand-gold);
-  transition: var(--transition);
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-  width: 100%;
-}
-
-.nav-actions {
+/* ==========================================================================
+   GRUPO DE MENU ESPELHADO: CÁPSULA BRANCA + BOTÃO VERDE WHATSAPP (MOBYAPP)
+   ========================================================================== */
+.header-mirrored-nav-group {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.nav-btn-admin {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-medium);
-  color: #FFFFFF;
-  padding: 9px 18px;
-  border-radius: 99px;
-  font-size: 0.84rem;
-  font-weight: 700;
+/* 1. Cápsula Branca com Links e Pontinhos Separadores (Exatamente como no print) */
+.nav-white-capsule {
+  background: #FFFFFF;
+  border-radius: 999px;
+  padding: 7px 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+}
+
+.capsule-menu-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.capsule-menu-list li {
+  display: flex;
+  align-items: center;
+}
+
+.capsule-menu-list li:not(:last-child)::after {
+  content: '•';
+  color: #94a3b8;
+  font-size: 11px;
+  margin: 0 4px;
+  opacity: 0.8;
+}
+
+.capsule-link {
+  color: #0f172a;
   text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 7px 11px;
+  border-radius: 999px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.capsule-link:hover {
+  color: var(--brand-gold);
+  background: rgba(245, 186, 40, 0.12);
+}
+
+.capsule-link.active {
+  color: #000000;
+  background: var(--brand-gold);
+}
+
+/* 2. Botão Pílula Verde do WhatsApp (Exatamente como no print) */
+.nav-whatsapp-pill {
+  background-color: #66ac33;
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: var(--transition);
+  box-shadow: 0 8px 24px rgba(102, 172, 51, 0.35);
+  transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
-.nav-btn-admin:hover {
-  border-color: var(--brand-gold);
-  color: var(--brand-gold);
-  background: var(--brand-gold-dim);
+.nav-whatsapp-pill:hover {
+  background-color: #559628;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(102, 172, 51, 0.5);
+  color: #FFFFFF;
+}
+
+.nav-whatsapp-pill svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* 3. Botão Pílula de Gestão Admin */
+.nav-admin-pill {
+  background: #FFFFFF;
+  color: #0f172a;
+  border: 1.5px solid var(--border-gold);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+
+.nav-admin-pill:hover {
+  background: var(--brand-gold);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(245, 186, 40, 0.35);
 }
 
 .nav-btn-cta {
@@ -275,26 +339,52 @@ body {
 /* Mobile Drawer */
 .mobile-nav-drawer {
   position: fixed;
-  top: 80px;
-  left: 0;
-  right: 0;
-  background: rgba(10, 10, 14, 0.98);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-gold);
-  padding: 24px 32px;
+  top: 76px;
+  left: 20px;
+  right: 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  border: 1.5px solid var(--border-gold);
+  padding: 22px;
   display: none;
   flex-direction: column;
-  gap: 16px;
-  z-index: 999;
+  gap: 8px;
+  z-index: 1001;
 }
 
 .mobile-nav-drawer.open {
   display: flex;
 }
 
-.mobile-nav-drawer .nav-link {
-  font-size: 1.05rem;
-  padding: 8px 0;
+.mobile-nav-drawer .capsule-link {
+  font-size: 13px;
+  padding: 10px 14px;
+  color: #0f172a;
+}
+
+.mobile-nav-drawer .capsule-link:hover,
+.mobile-nav-drawer .capsule-link.active {
+  background: rgba(245, 186, 40, 0.15);
+  color: #000000;
+}
+
+@media (max-width: 1180px) {
+  .header-mirrored-nav-group {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: block;
+    background: #FFFFFF;
+    border: 1.5px solid var(--border-gold);
+    color: #0f172a;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  }
 }
 
 /* ==========================================================================

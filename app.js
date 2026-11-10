@@ -72,7 +72,7 @@ export function closeMobileDrawer() {
 
 function setupActiveNavScroll() {
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.topbar-nav .nav-link');
+  const navLinks = document.querySelectorAll('.capsule-menu-list .capsule-link, .mobile-nav-drawer .capsule-link');
 
   if (sections.length === 0 || navLinks.length === 0) return;
 
